@@ -7,7 +7,9 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 LABEL org.label-schema.license="Apache-2.0" \
-      org.label-schema.url="http://dsecure.me"
+      org.label-schema.url="http://dsecure.me"\
+      org.label-schema.vendor="DSecure.me" \
+      org.label-schema.name="VMC"
 
 COPY root /
 
