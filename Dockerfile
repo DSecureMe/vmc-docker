@@ -6,6 +6,9 @@ ENV TZ=Poland
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+LABEL org.label-schema.license="Apache-2.0" \
+      org.label-schema.url="http://dsecure.me"
+
 COPY root /
 
 RUN yum install -y epel-release; \

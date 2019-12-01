@@ -10,7 +10,7 @@ services:
       - rabbitmq
       - redis
     volumes:
-      - ../config/vmc/demo.yml:/usr/share/vmc/config.yml
+      - ../config/vmc/demo.yml:/etc/vmc/config.yml
 
   worker:
     image: dsecureme/vmc:latest
@@ -20,7 +20,7 @@ services:
       - rabbitmq
       - redis
     volumes:
-      - ../config/vmc/demo.yml:/usr/share/vmc/config.yml
+      - ../config/vmc/demo.yml:/etc/vmc/config.yml
 
   monitor:
     image: dsecureme/vmc:latest
@@ -30,7 +30,7 @@ services:
     ports:
       - "5555:8080"
     volumes:
-      - ../config/vmc/demo.yml:/usr/share/vmc/config.yml
+      - ../config/vmc/demo.yml:/etc/vmc/config.yml
 
   scheduler:
     image: dsecureme/vmc:latest
@@ -39,7 +39,7 @@ services:
       - admin
       - rabbitmq
     volumes:
-      - ../config/vmc/demo.yml:/usr/share/vmc/config.yml
+      - ../config/vmc/demo.yml:/etc/vmc/config.yml
 
   rabbitmq:
     image: rabbitmq:${RABBITMQ_VERSION}
