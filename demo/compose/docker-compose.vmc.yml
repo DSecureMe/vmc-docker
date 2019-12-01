@@ -1,0 +1,49 @@
+version: '3.3'
+
+services:
+  admin:
+    image: dsecureme/vmc:latest
+    ports:
+      - "8080:8080"
+    command: ["admin"]
+    depends_on:
+      - rabbitmq
+      - redis
+    volumes:
+      - ../config/vmc/demo.yml:/usr/share/vmc/config.yml
+
+  worker:
+    image: dsecureme/vmc:latest
+    command: ["worker"]
+    depends_on:
+      - admin
+      - rabbitmq
+      - redis
+    volumes:
+      - ../config/vmc/demo.yml:/usr/share/vmc/config.yml
+
+  monitor:
+    image: dsecureme/vmc:latest
+    command: ["monitor"]
+    depends_on:
+      - rabbitmq
+    ports:
+      - "5555:8080"
+    volumes:
+      - ../config/vmc/demo.yml:/usr/share/vmc/config.yml
+
+  scheduler:
+    image: dsecureme/vmc:latest
+    command: ["scheduler"]
+    depends_on:
+      - admin
+      - rabbitmq
+    volumes:
+      - ../config/vmc/demo.yml:/usr/share/vmc/config.yml
+
+  rabbitmq:
+    image: rabbitmq:${RABBITMQ_VERSION}
+    env_file: ../.env
+
+  redis:
+    image: redis:${REDDIS_VERSION}

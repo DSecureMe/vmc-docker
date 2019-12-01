@@ -1,0 +1,28 @@
+version: '3.3'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
+    volumes:
+      - elastic-data:/usr/share/elasticsearch/data
+      - ../config/elasticsearch:/usr/share/elasticsearch/config
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  kibana:
+    image: kibana:${VMC_VERSION}
+    build:
+      context: ../kibana
+      args:
+        ELK_VERSION: $ELK_VERSION
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ../config/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+
+volumes:
+  elastic-data:
+    driver: local

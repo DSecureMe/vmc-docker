@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+  elastalert:
+    image: vmc-elastalert:${VMC_VERSION}
+    build:
+      context: ../elastalert
+      args:
+        ELASTALERT_URL: https://github.com/Yelp/elastalert/archive/master.zip
+    depends_on:
+      - kibana
+      - elasticsearch
+    volumes:
+      - ../config/elastalert/elastalert.yaml:/opt/elastalert/config.yaml
+      - ../config/elastalert/elastalert-test.yaml:/opt/elastalert/config-test.yaml
+      - ../config/elastalert/rules:/opt/elastalert/rules
