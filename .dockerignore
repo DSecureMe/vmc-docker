@@ -102,6 +102,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+.idea/
+vmc/.idea
+.DS_STORE
+db.sqllite3
 
-#Pycharm
-.idea
+config/vmc/newsletter-prod.yml
+vmc/root/opt/app/config/data/init.json

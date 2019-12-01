@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -e
+
+if ! whoami &> /dev/null; then
+  if [ -w /etc/passwd ]; then
+    echo "default:x:$(id -u):0:default user:${HOME}:/sbin/nologin" >> /etc/passwd
+  fi
+fi
+
+
+{
+    cmd=$1
+    case $cmd in
+         admin|monitor|scheduler|worker)
+              exec vmc $cmd
+              ;;
+         *)
+              exec $cmd
+              ;;
+    esac
+}
