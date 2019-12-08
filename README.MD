@@ -12,6 +12,7 @@
 ## To run demo
 Open demo folder and build (it may take couple minutes)
 ```
+git submodule update --init --recursive
 make build
 make up
 ```

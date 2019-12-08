@@ -17,7 +17,6 @@ build: build-elastalert
 
 build-elastalert:
 	@echo "Starting to build elastalert"
-	git clone https://github.com/mwalkowski/elastalert.git|| true
 	docker-compose $(call compose-file,elk) $(call compose-file,elastalert) build
 
 up:
