@@ -14,3 +14,5 @@ services:
       - ../config/elastalert/elastalert.yaml:/opt/elastalert/config.yaml
       - ../config/elastalert/elastalert-test.yaml:/opt/elastalert/config-test.yaml
       - ../config/elastalert/rules:/opt/elastalert/rules
+      - ../config/elastalert/elastalert.yaml:/opt/elastalert-server/config/elastalert.yaml
+      - ../config/elastalert/elastalert-test.yaml:/opt/elastalert-server/elastalert-test.yaml

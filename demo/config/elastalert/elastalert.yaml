@@ -15,7 +15,7 @@ writeback_index: elastalert_status
 
 # This is the folder that contains the rule yaml files
 # Any .yaml file will be loaded as a rule
-rules_folder: /opt/elastalert/rules
+rules_folder: rules
 
 # How often ElastAlert will query elasticsearch
 # The unit can be anything from weeks to seconds
@@ -54,7 +54,7 @@ debug: false
 rulesPath.relative: true
 
 # The path to the rules folder.
-rulesPath.path: /opt/elastalert/rules
+rulesPath.path: /rules
 
 
 # The path to the rules folder containing all the rule templates.
