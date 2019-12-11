@@ -2,17 +2,16 @@ version: '3.3'
 
 services:
   elastalert:
-    image: vmc-elastalert:${VMC_VERSION}
-    build:
-      context: ../elastalert
-      args:
-        ELASTALERT_URL: https://github.com/Yelp/elastalert/archive/master.zip
+    image: bitsensor/elastalert:3.0.0-beta.1
+    restart: always
     depends_on:
       - kibana
       - elasticsearch
+    ports:
+      - "3030:3030"
+      - "3333:3333"
     volumes:
       - ../config/elastalert/elastalert.yaml:/opt/elastalert/config.yaml
-      - ../config/elastalert/elastalert-test.yaml:/opt/elastalert/config-test.yaml
+      - ../config/elastalert/elastalert.yaml:/opt/elastalert/config-test.yaml
+      - ../config/elastalert/config.json:/opt/elastalert-server/config/config.json
       - ../config/elastalert/rules:/opt/elastalert/rules
-      - ../config/elastalert/elastalert.yaml:/opt/elastalert-server/config/elastalert.yaml
-      - ../config/elastalert/elastalert-test.yaml:/opt/elastalert-server/elastalert-test.yaml

@@ -1,17 +1,9 @@
-# The name used by the logging framework.
-appName: elastalert-server
-
 # The elasticsearch hostname for metadata writeback
 # Note that every rule can have its own elasticsearch host
 es_host: elasticsearch
 
 # The elasticsearch port
 es_port: 9200
-
-# The index on es_host which is used for metadata storage
-# This can be a unmapped index, but it is recommended that you run
-# elastalert-create-index to set a mapping
-writeback_index: elastalert_status
 
 # This is the folder that contains the rule yaml files
 # Any .yaml file will be loaded as a rule
@@ -27,56 +19,31 @@ run_every:
 buffer_time:
   minutes: 1
 
-# The port to bind to
-elastalert_port: 3030
+# Optional URL prefix for elasticsearch
+#es_url_prefix: elasticsearch
 
-# The port to bind to for websockets
-elastalert_wsport: 3333
+# Connect with TLS to elasticsearch
+#use_ssl: True
 
-# Optional, will increase the logging verboseness,
-# which allows you to see information about the state of queries.
-verbose: false
+# Verify TLS certificates
+#verify_certs: True
 
-# Optional, will enable logging for all queries made to Elasticsearch
-es_debug: true
+# GET request with body is the default option for Elasticsearch.
+# If it fails for some reason, you can pass 'GET', 'POST' or 'source'.
+# See http://elasticsearch-py.readthedocs.io/en/master/connection.html?highlight=send_get_body_as#transport
+# for details
+#es_send_get_body_as: GET
 
-# Will run ElastAlert in debug mode.
-# This will increase the logging verboseness, change all alerts to DebugAlerter,
-# which prints alerts and suppresses their normal action,
-# and skips writing search and alert metadata back to Elasticsearch.
-debug: false
+# Option basic-auth username and password for elasticsearch
+#es_username: someusername
+#es_password: somepassword
 
+# The index on es_host which is used for metadata storage
+# This can be a unmapped index, but it is recommended that you run
+# elastalert-create-index to set a mapping
+writeback_index: elastalert_status
 
-# The path to the rules folder containing all the rules.
-# If the folder is empty a dummy file will be created to allow ElastAlert to start.
-
-# Whether to use a path relative to the `elastalertPath` folder.
-rulesPath.relative: true
-
-# The path to the rules folder.
-rulesPath.path: /rules
-
-
-# The path to the rules folder containing all the rule templates.
-# If the folder is empty a dummy file will be created to allow ElastAlert to start.
-
-# Whether to use a path relative to the `elastalertPath` folder.
-templatesPath.relative: true
-
-# The path to the rule templates folder.
-templatesPath.path: /opt/elastalert/rule_templates
-
-
-# The path to a folder that the server can use to store data and temporary files.
-
-# Whether to use a path relative to the `elastalertPath` folder.
-dataPath.relative: true
-
-# The path to the data folder.
-dataPath.path: /opt/elastalert/server_data
-
-# Optional date to start querying from
-# start: "2014-01-01T00:00:00"
-
-# Optional date to stop querying at
-#end: "2016-01-01T00:00:00"
+# If an alert fails for some reason, ElastAlert will retry
+# sending the alert until this time period has elapsed
+alert_time_limit:
+  days: 2
