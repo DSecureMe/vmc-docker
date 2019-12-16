@@ -12,12 +12,12 @@ VMC = $(call compose-file,postgresql) $(call compose-file,elastalert) $(call com
 all:
 	make build
 
-build: build-elastalert
+build: build-elk
 	@echo "Starting to build project"
 
-build-elastalert:
+build-elk:
 	@echo "Starting to build elastalert"
-	docker-compose $(call compose-file,elk) $(call compose-file,elastalert) build
+	docker-compose $(call compose-file,elk) build
 
 up:
 	docker-compose $(VMC) up

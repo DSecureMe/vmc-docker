@@ -1,6 +1,10 @@
 server.name: kibana
 server.host: "0"
 elasticsearch.hosts: [ "http://elasticsearch:9200" ]
-xpack.monitoring.ui.container.elasticsearch.enabled: true
+xpack.monitoring.ui.container.elasticsearch.enabled: false
 elastalert-kibana-plugin.serverHost: elastalert
 elastalert-kibana-plugin.serverPort: 3030
+xpack.ml.enabled: false
+xpack.logstash.enabled: false
+xpack.infra.enabled: false
+xpack.uptime.enabled: false
