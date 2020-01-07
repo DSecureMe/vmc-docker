@@ -5,7 +5,12 @@ define compose-file
 	-f $(COMPOSE)/docker-compose.$(1).yml
 endef
 
-VMC = $(call compose-file,postgresql) $(call compose-file,elastalert) $(call compose-file,hive) $(call compose-file,elk) $(call compose-file,vmc)
+VMC = $(call compose-file,postgresql) \
+      $(call compose-file,elastalert) \
+      $(call compose-file,hive) \
+      $(call compose-file,elk) \
+      $(call compose-file,vmc) \
+      $(call compose-file,ralph)
 
 .PHONY: all
 

@@ -1,0 +1,51 @@
+version: '3.3'
+
+services:
+  web:
+    image: allegro/ralph:latest
+    volumes:
+      - ralph_media:/var/local/ralph/media
+      - ralph_static:/usr/share/ralph/static
+    depends_on:
+      - mariadb
+      - redis
+      - nginx
+    environment:
+        DATABASE_NAME: ${MYSQL_DATABASE}
+        DATABASE_USER: ${MYSQL_USER}
+        DATABASE_PASSWORD: ${MYSQL_PASSWORD}
+        DATABASE_HOST: mariadb
+        REDIS_HOST: redis
+        REDIS_PASSWORD: ""
+        REDIS_PORT: 6379
+        REDIS_DB: 0
+
+  nginx:
+    image: allegro/ralph-static-nginx:latest
+    restart: always
+    ports:
+      - "8081:80"
+    volumes:
+      - ralph_media:/opt/media
+
+  mariadb:
+    image: mariadb:${MARIADB_VERSION}
+    env_file: ../.env
+    volumes:
+      - mariadb-data:/var/lib/mysql
+
+  inkpy:
+    image: allegro/inkpy:latest
+    environment:
+        REDIS_HOST: redis
+        REDIS_PASSWORD: ""
+        REDIS_PORT: 6379
+        REDIS_DB: 0
+
+volumes:
+  ralph_media:
+    driver: local
+  ralph_static:
+    driver: local
+  mariadb-data:
+    driver: local
