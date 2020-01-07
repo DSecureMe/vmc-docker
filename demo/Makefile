@@ -25,7 +25,12 @@ build-elk:
 	docker-compose $(call compose-file,elk) build
 
 up:
+	sudo sysctl -w vm.max_map_count=262144
 	docker-compose $(VMC) up
+
+demodata:
+	@chmod +x config/demo_data.sh
+	@config/demo_data.sh
 
 down:
 	docker-compose $(VMC) down

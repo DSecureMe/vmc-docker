@@ -15,6 +15,7 @@ Open demo folder and build (it may take couple minutes)
 git submodule update --init --recursive
 make build
 make up
+make demodata
 ```
 For now you must manually load dashboard config file to Kibana. Open Web GUI (default kibana port). Then go to _Management_ -> _Saved Objects_ -> Import and select _export.ndjson_
 
