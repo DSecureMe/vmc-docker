@@ -27,11 +27,16 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ralph.settings")
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-from ralph.assets.models import Asset, Ethernet
-from ralph.networks.models.networks import IPAddress
+from django.contrib.contenttypes.models import ContentType
+from ralph.assets.models import Ethernet
+from ralph.data_center.models import DataCenterAsset
+from ralph.networks.models import IPAddress
+from ralph.lib.custom_fields.models import CustomFieldValue, CustomField, CustomFieldTypes
 
 USED_IPS = []
 USED_MAC = []
+
+IMPACT = ['LOW', 'MEDIUM', 'HIGH', 'NOT_DEFINED']
 
 
 def _generate_mac():
@@ -58,15 +63,49 @@ def _random_ip_address():
 
 
 def main():
-    used_ips = []
-    dc_assets = Asset.objects.filter(backofficeasset__isnull=True)
+    dc_assets = DataCenterAsset.objects.all()
+
+    confidentiality_field = CustomField.objects.create(
+        name='confidentiality',
+        type=CustomFieldTypes.STRING,
+        choices='LOW|MEDIUM|HIGH|NOT_DEFINED',
+    )
+    integrity_field = CustomField.objects.create(
+        name='integrity',
+        type=CustomFieldTypes.STRING,
+        choices='LOW|MEDIUM|HIGH|NOT_DEFINED',
+    )
+    availability_field = CustomField.objects.create(
+        name='availability',
+        type=CustomFieldTypes.STRING,
+        choices='LOW|MEDIUM|HIGH|NOT_DEFINED',
+    )
+    content_type = ContentType.objects.get_for_model(DataCenterAsset)
     print('Generating IP addesses for', dc_assets.count())
 
-    for idx, asset in enumerate(dc_assets):
-        ip = _random_ip_address()
-        used_ips.append(ip)
-        eth = Ethernet.objects.create(base_object=asset, mac=_generate_mac())
+    for asset in dc_assets:
+        eth = Ethernet.objects.create(base_object=asset.asset, mac=_generate_mac())
         IPAddress.objects.create(address=_random_ip_address(), ethernet=eth, hostname=asset.hostname)
+        if random.choices([True, False])[0]:
+            asset.custom_fields.add(CustomFieldValue.objects.create(
+                custom_field=confidentiality_field,
+                value=random.choices(IMPACT)[0],
+                object_id=asset.pk,
+                content_type=content_type
+            ))
+            asset.custom_fields.add(CustomFieldValue.objects.create(
+                custom_field=integrity_field,
+                value=random.choices(IMPACT)[0],
+                object_id=asset.pk,
+                content_type=content_type
+            ))
+            asset.custom_fields.add(CustomFieldValue.objects.create(
+                custom_field=availability_field,
+                value=random.choices(IMPACT)[0],
+                object_id=asset.pk,
+                content_type=content_type
+            ))
+            asset.save()
 
     print('Generation done')
 

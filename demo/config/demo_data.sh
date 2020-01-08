@@ -1,10 +1,7 @@
 echo "Ralph: Make migrations"
 docker exec -it compose_web_1 ralphctl migrate
 
-echo "Ralph: Create demo superuser (login: ralph, password: ralph)"
-docker exec -it compose_web_1 ralphctl loaddata /test_data/demo_admin_user.json
-
-echo "Ralph: Load demo data"
+echo "Ralph: Load demo data  (login: ralph, password: ralph)"
 docker exec -it compose_web_1 ralphctl demodata
 docker exec -it compose_web_1 python3 /test_data/generate_ips.py
 
