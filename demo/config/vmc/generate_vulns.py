@@ -21,6 +21,7 @@
 import os
 import random
 from unittest import mock
+from elasticsearch_dsl import Q
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "vmc.config.settings")
 
@@ -30,22 +31,35 @@ application = get_wsgi_application()
 from datetime import datetime, timedelta
 from vmc.ralph.tasks import load_all_assets
 from vmc.knowledge_base.tasks import update_cve, update_cwe, START_YEAR
-from vmc.knowledge_base.models import Cve
-from vmc.vulnerabilities.models import Vulnerability
-from vmc.assets.models import Asset
+from vmc.assets.documents import AssetDocument
+from vmc.vulnerabilities.documents import VulnerabilityDocument
+from vmc.knowledge_base.documents import CveDocument
 
 
 def main():
     load_all_assets()
+
     update_cwe()
+
     update_cve(random.randint(START_YEAR, datetime.now().year + 1))
+
     print('Creating 2000 vulnerabilities')
+    query = Q({'function_score': {
+        "query": {"match_all": {}},
+        "boost": "5",
+        "random_score": {},
+        "boost_mode": "multiply"
+    }})
+
     for idx in range(1, 2000):
-        cve = Cve.objects.order_by("?").first()
+        cve_search = CveDocument.search().query(query)[1]
+        cve = cve_search.execute().hits[0]
+        as_search = AssetDocument.search().query(query)[1]
+        asset = as_search.execute().hits[0]
         with mock.patch('django.utils.timezone.now') as mock_now:
             mock_now.return_value = datetime.now() - timedelta(days=random.randint(1, 90))
-            Vulnerability.objects.create(
-                asset=Asset.objects.order_by("?").first(),
+            VulnerabilityDocument(
+                asset=asset,
                 cve=cve,
                 description=cve.summary,
                 solution='SAMPLE SOLUTION {}'.format(idx),
@@ -53,7 +67,7 @@ def main():
                 port=random.randint(1, 1024),
                 svc_name='service {}'.format(idx),
                 protocol='tcp'
-            )
+            ).save(refresh=True)
     print('Done')
 
 
