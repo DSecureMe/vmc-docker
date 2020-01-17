@@ -6,6 +6,7 @@ services:
     volumes:
       - elastic-hive-data:/usr/share/elasticsearch/data
       - ../config/hive_elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ../config/hive_elasticsearch/data:/test_data
 
   hive:
     image: thehiveproject/thehive:latest

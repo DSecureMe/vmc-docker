@@ -2,6 +2,7 @@ name: New asset whith empty field business owner
 type: any
 index: "asset"
 alert: hivealerter
+alert_on_new_data: true
 timestamp_field: "modified_date"
 filter:
 - term:
@@ -9,7 +10,7 @@ filter:
 hive_connection:
   hive_host: http://hive
   hive_port: 9000
-  hive_apikey: "Ug6wAXAQ7IAJM0B8Sn5ep+2ie+RMbu9A"
+  hive_apikey: "nzZE50t3YUDyg+OgSSfbxLFAbRaa9cvt"
 hive_alert_config:
   title: 'New asset whith empty field business owner'
   type: 'external'
