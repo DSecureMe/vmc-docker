@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+curl -F file=@/test_data/export.ndjson -X 'POST' 'http://localhost:5601/api/saved_objects/_import?overwrite=true' -H $'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) Gecko/20100101 Firefox/72.0' -H $'Accept: */*' -H $'Accept-Language: pl,en-US;q=0.7,en;q=0.3' -H $'Accept-Encoding: gzip, deflate' -H $'Referer: http://172.16.250.133:5601/app/kibana' -H $'kbn-version: 7.3.2'

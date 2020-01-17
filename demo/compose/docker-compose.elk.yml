@@ -22,6 +22,7 @@ services:
       - elasticsearch
     volumes:
       - ../config/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - ../config/kibana/:/test_data
 
 volumes:
   elastic-data:
