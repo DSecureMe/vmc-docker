@@ -24,6 +24,7 @@ import ralph.settings
 ralph.settings.CHECK_IP_HOSTNAME_ON_SAVE = False
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ralph.settings")
 
+from django.contrib.auth import get_user_model
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
@@ -37,6 +38,11 @@ USED_IPS = []
 USED_MAC = []
 
 IMPACT = ['LOW', 'MEDIUM', 'HIGH', 'NOT_DEFINED']
+OS_LIST = ['Windows 2000', 'Windows XP',  'Windows Vista', 'Windows 7', 'Windows 8', 'Windows 10',
+           'Windows Server', 'Windows Home Server', 'Ubuntu 14.10', 'Ubuntu 18.10', 'Redhat 7', 'Centos 8',
+           'Debian', 'Kali']
+
+USER_MODEL = get_user_model()
 
 
 def _generate_mac():
@@ -65,6 +71,10 @@ def _random_ip_address():
 def main():
     dc_assets = DataCenterAsset.objects.all()
 
+    os_field = CustomField.objects.create(
+        name='os',
+        type=CustomFieldTypes.STRING
+    )
     confidentiality_field = CustomField.objects.create(
         name='confidentiality',
         type=CustomFieldTypes.STRING,
@@ -105,7 +115,23 @@ def main():
                 object_id=asset.pk,
                 content_type=content_type
             ))
-            asset.save()
+        if random.choices([True, False])[0]:
+            asset.custom_fields.add(CustomFieldValue.objects.create(
+                custom_field=os_field,
+                value=random.choices(random.choices(OS_LIST))[0],
+                object_id=asset.pk,
+                content_type=content_type
+            ))
+
+        if random.choices([True, False, False])[0]:
+            bo = USER_MODEL.objects.order_by('?').first()
+            asset.service_env.service.business_owners.add(bo)
+
+        if random.choices([True, False, False])[0]:
+            bo = USER_MODEL.objects.order_by('?').first()
+            asset.service_env.service.technical_owners.add(bo)
+
+        asset.save()
 
     print('Generation done')
 
