@@ -91,43 +91,43 @@ def main():
         choices='LOW|MEDIUM|HIGH|NOT_DEFINED',
     )
     content_type = ContentType.objects.get_for_model(DataCenterAsset)
-    print('Generating IP addesses for', dc_assets.count())
+    print('Generating random data for addesses', dc_assets.count())
 
     for asset in dc_assets:
         eth = Ethernet.objects.create(base_object=asset.asset, mac=_generate_mac())
         IPAddress.objects.create(address=_random_ip_address(), ethernet=eth, hostname=asset.hostname)
-        if random.choices([True, False])[0]:
+        if random.choice([True, False]):
             asset.custom_fields.add(CustomFieldValue.objects.create(
                 custom_field=confidentiality_field,
-                value=random.choices(IMPACT)[0],
+                value=random.choice(IMPACT),
                 object_id=asset.pk,
                 content_type=content_type
             ))
             asset.custom_fields.add(CustomFieldValue.objects.create(
                 custom_field=integrity_field,
-                value=random.choices(IMPACT)[0],
+                value=random.choice(IMPACT),
                 object_id=asset.pk,
                 content_type=content_type
             ))
             asset.custom_fields.add(CustomFieldValue.objects.create(
                 custom_field=availability_field,
-                value=random.choices(IMPACT)[0],
+                value=random.choice(IMPACT),
                 object_id=asset.pk,
                 content_type=content_type
             ))
-        if random.choices([True, False])[0]:
+        if random.choice([True, False]):
             asset.custom_fields.add(CustomFieldValue.objects.create(
                 custom_field=os_field,
-                value=random.choices(random.choices(OS_LIST))[0],
+                value=random.choice(random.choice(OS_LIST)),
                 object_id=asset.pk,
                 content_type=content_type
             ))
 
-        if random.choices([True, False, False])[0]:
+        if random.random() > 0.90 and not asset.service_env.service.business_owners.exists():
             bo = USER_MODEL.objects.order_by('?').first()
             asset.service_env.service.business_owners.add(bo)
 
-        if random.choices([True, False, False])[0]:
+        if random.random() > 0.90 and not asset.service_env.service.technical_owners.exists():
             bo = USER_MODEL.objects.order_by('?').first()
             asset.service_env.service.technical_owners.add(bo)
 
