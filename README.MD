@@ -23,7 +23,7 @@ On port `:8080/admin` you can find VMC admin panel.
 You log in there with following credentials `admin:adminadmin`
 Go to Cves and then click on Import CVE (upper-right corner)
 
-More guides will be published on [doc report](https://github.com/DSecureMe/vmcDocs) very soon
+More guides will be published on [doc report](https://github.com/DSecureMe/vmc-docs) very soon
 
 # Configuration files
 All configs you may find in `demo/config/`
