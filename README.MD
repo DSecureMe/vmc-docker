@@ -12,17 +12,17 @@
 ## To run demo
 Open demo folder and build (it may take couple minutes)
 ```
-git submodule update --init --recursive
 make build
 make up
+make demodata # If you want to configure and genrate demodata to see how everything works.
 ```
-For now you must manually load dashboard config file to Kibana. Open Web GUI (default kibana port). Then go to _Management_ -> _Saved Objects_ -> Import and select _export.ndjson_
+Then:
+- on port `:5601` you can find Kibana panel with sample KPIs.
+- on port `:8081` you can find Ralph with sample assets (login ralph, password: ralph).
+- on port `:9000` you can find The Hive with the sample alerts(login admin, password: admin).
+- on port `:8080/admin` you can find VMC admin panel with the sample configuration (login admin, password: adminadmin).
 
-On port `:8080/admin` you can find VMC admin panel.
-You log in there with following credentials `admin:adminadmin`
-Go to Cves and then click on Import CVE (upper-right corner)
-
-More guides will be published on [doc report](https://github.com/DSecureMe/vmcDocs) very soon
+More guides will be published on [doc report](https://github.com/DSecureMe/vmc-docs) very soon
 
 # Configuration files
 All configs you may find in `demo/config/`

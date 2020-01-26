@@ -1,0 +1,27 @@
+name: New asset whith empty field business owner
+type: any
+index: "asset"
+alert: hivealerter
+alert_on_new_data: true
+timestamp_field: "modified_date"
+realert:
+    minutes: 0
+
+filter:
+- term:
+    business_owner: "UNKNOWN"
+
+hive_connection:
+  hive_host: http://hive
+  hive_port: 9000
+  hive_apikey: "nzZE50t3YUDyg+OgSSfbxLFAbRaa9cvt"
+
+hive_alert_config:
+  title: 'New asset whith empty field business owner'
+  type: 'external'
+  source: 'VMC'
+  description: '{match[hostname]}'
+  severity: 3
+  tags: ['empty field business owner', '{match[hostname]}']
+  tlp: 1
+  status: 'New'

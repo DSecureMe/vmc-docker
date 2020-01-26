@@ -11,6 +11,7 @@ services:
       - redis
     volumes:
       - ../config/vmc/demo.yml:/etc/vmc/config.yml
+      - ../config/vmc/:/test_data
 
   worker:
     image: dsecureme/vmc:latest

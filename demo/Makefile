@@ -5,7 +5,12 @@ define compose-file
 	-f $(COMPOSE)/docker-compose.$(1).yml
 endef
 
-VMC = $(call compose-file,postgresql) $(call compose-file,elastalert) $(call compose-file,hive) $(call compose-file,elk) $(call compose-file,vmc)
+VMC = $(call compose-file,postgresql) \
+      $(call compose-file,elastalert) \
+      $(call compose-file,hive) \
+      $(call compose-file,elk) \
+      $(call compose-file,vmc) \
+      $(call compose-file,ralph)
 
 .PHONY: all
 
@@ -20,7 +25,12 @@ build-elk:
 	docker-compose $(call compose-file,elk) build
 
 up:
+	sudo sysctl -w vm.max_map_count=262144
 	docker-compose $(VMC) up
+
+demodata:
+	@chmod +x config/demo_data.sh
+	@config/demo_data.sh
 
 down:
 	docker-compose $(VMC) down
