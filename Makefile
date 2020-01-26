@@ -1,4 +1,4 @@
-v ?= 1.0.1-alpha
+v ?= 1.0.1-alpha2
 
 all: build
 

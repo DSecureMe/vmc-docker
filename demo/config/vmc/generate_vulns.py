@@ -30,7 +30,7 @@ application = get_wsgi_application()
 
 from datetime import datetime, timedelta
 from vmc.ralph.tasks import load_all_assets
-from vmc.knowledge_base.tasks import update_cve, update_cwe, START_YEAR
+from vmc.knowledge_base.tasks import update_cve_cwe, update_cve, update_cwe, START_YEAR
 from vmc.assets.documents import AssetDocument
 from vmc.vulnerabilities.documents import VulnerabilityDocument
 from vmc.knowledge_base.documents import CveDocument
@@ -68,6 +68,9 @@ def main():
                 svc_name='service {}'.format(idx),
                 protocol='tcp'
             ).save(refresh=True)
+
+    update_cve_cwe.delay()
+
     print('Done')
 
 
