@@ -12,8 +12,8 @@ fi
 {
     cmd=$1
     case $cmd in
-         admin|monitor|scheduler|worker)
-              exec vmc $cmd
+         admin|monitor|scheduler|worker|admin-dev)
+              exec vmcctl start $cmd
               ;;
          *)
               exec $cmd
