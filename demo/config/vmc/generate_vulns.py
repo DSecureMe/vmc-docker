@@ -29,7 +29,7 @@ from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
 from datetime import datetime, timedelta
-from vmc.ralph.tasks import load_all_assets
+from vmc.ralph.tasks import start_update_assets
 from vmc.knowledge_base.tasks import update_cve_cwe, update_cve, update_cwe, START_YEAR
 from vmc.assets.documents import AssetDocument
 from vmc.vulnerabilities.documents import VulnerabilityDocument
@@ -37,7 +37,7 @@ from vmc.knowledge_base.documents import CveDocument
 
 
 def main():
-    load_all_assets()
+    start_update_assets()
 
     update_cwe()
 

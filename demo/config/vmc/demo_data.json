@@ -78,7 +78,7 @@
     "pk": 2,
     "fields": {
       "name": "Update Assets",
-      "task": "vmc.ralph.tasks.load_all_assets",
+      "task": "vmc.ralph.tasks.start_update_assets",
       "interval": null,
       "crontab": 2,
       "solar": null,
@@ -103,7 +103,10 @@
     "pk": 1,
     "fields": {
       "name": "Demo Ralph",
-      "url": "http://web:8000",
+      "schema": "http",
+      "host": "web",
+      "port": 8000,
+      "insecure": true,
       "username": "ralph",
       "password": "ralph",
       "created_date": "2019-03-06T22:37:31.540Z",

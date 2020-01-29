@@ -118,7 +118,7 @@ def main():
         if random.choice([True, False]):
             asset.custom_fields.add(CustomFieldValue.objects.create(
                 custom_field=os_field,
-                value=random.choice(random.choice(OS_LIST)),
+                value=random.choice(OS_LIST),
                 object_id=asset.pk,
                 content_type=content_type
             ))
