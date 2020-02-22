@@ -14,6 +14,7 @@ docker exec -it compose_hive_elasticsearch_1 /test_data/load.sh
 
 echo "VMC: Load data (superuser login: admin, password: adminadmin)"
 docker exec -it compose_admin_1 vmc loaddata /test_data/demo_data.json
+docker exec -it compose_admin_1 vmc create_index
 
 echo "Kibana: Import Sample Dashboards and KPIs"
 #docker exec -it compose_kibana_1 chmod +x /test_data/load.sh
