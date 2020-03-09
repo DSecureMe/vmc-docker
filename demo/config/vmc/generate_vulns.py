@@ -56,7 +56,7 @@ def main():
         cve = cve_search.execute().hits[0]
         as_search = AssetDocument.search().query(query)[1]
         asset = as_search.execute().hits[0]
-        with mock.patch('vmc.common.elastic.documents.now') as mock_now:
+        with mock.patch('vmc.elasticsearch.documents.now') as mock_now:
             mock_now.return_value = datetime.now() - timedelta(days=random.randint(1, 90))
             VulnerabilityDocument(
                 asset=asset,
