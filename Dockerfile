@@ -48,5 +48,3 @@ EXPOSE 8080
 USER 1001
 
 ENTRYPOINT ["entrypoint"]
-
-#HEALTHCHECK CMD ["docker-healthcheck"]
