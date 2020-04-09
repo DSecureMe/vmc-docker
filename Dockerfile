@@ -40,7 +40,7 @@ RUN yum install -y epel-release; \
     yum clean all; \
     rm -rf /var/cache/yum; \
     chmod g=u /etc/passwd; \
-    chmod +x /usr/bin/entrypoint /usr/bin/docker-healthcheck;
+    chmod +x /usr/bin/entrypoint;
 
 
 EXPOSE 8080
