@@ -38,11 +38,23 @@ USED_IPS = []
 USED_MAC = []
 
 IMPACT = ['LOW', 'MEDIUM', 'HIGH', 'NOT_DEFINED']
-OS_LIST = ['Windows 2000', 'Windows XP',  'Windows Vista', 'Windows 7', 'Windows 8', 'Windows 10',
-           'Windows Server', 'Windows Home Server', 'Ubuntu 14.10', 'Ubuntu 18.10', 'Redhat 7', 'Centos 8',
-           'Debian', 'Kali']
+IMPACT_WEIGHTS = [0.25, 0.25, 0.25, 0.25]
+
+OS_FAMILY = {
+    'Redhat': ['Redhat 5', 'Redhat 6', 'Redhat 7'],
+    'Debian': ['Debian 8', 'Debian 9', 'Debian 10'],
+    'Windows': ['Windows Server 2012', 'Windows Server 2016', 'Windows Server 2019'],
+    'IBM': ['IBM AIX 5', 'IBM AIX 6', 'IBM AIX 7']
+}
+
+"""
+Probability distribution of the images used modeled on:
+https://ieeexplore.ieee.org/abstract/document/6195556
+"""
+OS_FAMILY_WEIGHTS = [0.53, 0.07, 0.25, 0.15]
 
 USER_MODEL = get_user_model()
+MIN_IP_COUNT = 1000
 
 
 def _generate_mac():
@@ -59,9 +71,9 @@ def _generate_mac():
 
 def _random_ip_address():
     while True:
-        octets = []
-        for x in range(4):
-            octets.append(str(random.randint(0, 255)))
+        octets = ['192', '168']
+        for x in range(2):
+            octets.append(str(random.randint(1, 254)))
         ip = '.'.join(octets)
         if ip not in USED_IPS:
             USED_IPS.append(ip)
@@ -77,51 +89,48 @@ def main():
     )
     confidentiality_field = CustomField.objects.create(
         name='confidentiality',
-        type=CustomFieldTypes.STRING,
+        type=CustomFieldTypes.CHOICE,
         choices='LOW|MEDIUM|HIGH|NOT_DEFINED',
     )
     integrity_field = CustomField.objects.create(
         name='integrity',
-        type=CustomFieldTypes.STRING,
+        type=CustomFieldTypes.CHOICE,
         choices='LOW|MEDIUM|HIGH|NOT_DEFINED',
     )
     availability_field = CustomField.objects.create(
         name='availability',
-        type=CustomFieldTypes.STRING,
+        type=CustomFieldTypes.CHOICE,
         choices='LOW|MEDIUM|HIGH|NOT_DEFINED',
     )
     content_type = ContentType.objects.get_for_model(DataCenterAsset)
-    print('Generating random data for addesses', dc_assets.count())
 
-    for asset in dc_assets:
-        eth = Ethernet.objects.create(base_object=asset.asset, mac=_generate_mac())
-        IPAddress.objects.create(address=_random_ip_address(), ethernet=eth, hostname=asset.hostname)
-        if random.choice([True, False]):
-            asset.custom_fields.add(CustomFieldValue.objects.create(
-                custom_field=confidentiality_field,
-                value=random.choice(IMPACT),
-                object_id=asset.pk,
-                content_type=content_type
-            ))
-            asset.custom_fields.add(CustomFieldValue.objects.create(
-                custom_field=integrity_field,
-                value=random.choice(IMPACT),
-                object_id=asset.pk,
-                content_type=content_type
-            ))
-            asset.custom_fields.add(CustomFieldValue.objects.create(
-                custom_field=availability_field,
-                value=random.choice(IMPACT),
-                object_id=asset.pk,
-                content_type=content_type
-            ))
-        if random.choice([True, False]):
-            asset.custom_fields.add(CustomFieldValue.objects.create(
-                custom_field=os_field,
-                value=random.choice(OS_LIST),
-                object_id=asset.pk,
-                content_type=content_type
-            ))
+    print('Generating random data for addesses', dc_assets.count())
+    for idx, asset in enumerate(dc_assets):
+        asset.custom_fields.add(CustomFieldValue.objects.create(
+            custom_field=confidentiality_field,
+            value=random.choices(IMPACT, IMPACT_WEIGHTS)[0],
+            object_id=asset.pk,
+            content_type=content_type
+        ))
+        asset.custom_fields.add(CustomFieldValue.objects.create(
+            custom_field=integrity_field,
+            value=random.choices(IMPACT, IMPACT_WEIGHTS)[0],
+            object_id=asset.pk,
+            content_type=content_type
+        ))
+        asset.custom_fields.add(CustomFieldValue.objects.create(
+            custom_field=availability_field,
+            value=random.choices(IMPACT, IMPACT_WEIGHTS)[0],
+            object_id=asset.pk,
+            content_type=content_type
+        ))
+        os_family = random.choices(list(OS_FAMILY.keys()), OS_FAMILY_WEIGHTS)[0]
+        asset.custom_fields.add(CustomFieldValue.objects.create(
+            custom_field=os_field,
+            value=random.choices(OS_FAMILY[os_family])[0],
+            object_id=asset.pk,
+            content_type=content_type
+        ))
 
         if random.random() > 0.90 and not asset.service_env.service.business_owners.exists():
             bo = USER_MODEL.objects.order_by('?').first()
@@ -133,6 +142,14 @@ def main():
 
         asset.save()
 
+    while len(USED_IPS) <= MIN_IP_COUNT:
+        for idx, asset in enumerate(dc_assets):
+            eth = Ethernet.objects.create(base_object=asset.asset, mac=_generate_mac())
+            IPAddress.objects.create(address=_random_ip_address(), ethernet=eth, hostname=asset.hostname)
+        if len(USED_IPS) // 100:
+            print(len(USED_IPS))
+
+    print(F'Generated ips: {len(USED_IPS)}')
     print('Generation done')
 
 
