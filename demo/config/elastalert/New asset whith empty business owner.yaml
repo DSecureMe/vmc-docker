@@ -8,8 +8,8 @@ realert:
     minutes: 0
 
 filter:
-- term:
-    business_owner: "UNKNOWN"
+  - query:
+      query_string: {query: 'not __exists__:business_owner.name'}
 
 hive_connection:
   hive_host: http://hive

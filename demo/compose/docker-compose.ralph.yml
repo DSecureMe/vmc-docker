@@ -23,7 +23,7 @@ services:
 
   ralph_nginx:
     image: allegro/ralph-static-nginx:20191219.1
-    restart: always
+    restart: unless-stopped
     ports:
       - "8081:80"
     volumes:
@@ -34,6 +34,7 @@ services:
     env_file: ../.env
     volumes:
       - mariadb-data:/var/lib/mysql
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 
   ralph_inkpy:
     image: allegro/inkpy:0.1.4
