@@ -3,7 +3,7 @@ docker exec -it compose_web_1 ralphctl migrate
 
 echo "Ralph: Load demo data  (login: ralph, password: ralph)"
 docker exec -it compose_web_1 ralphctl demodata
-docker exec -it compose_web_1 python3 /test_data/generate_ips.py
+docker exec -it compose_web_1 python3 /test_data/req.py
 
 echo "Elastalert: Create Indexes"
 #docker exec -it compose_elastalert_1 /usr/bin/elastalert-create-index --config /opt/elastalert/config.yaml

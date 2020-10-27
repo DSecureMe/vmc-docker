@@ -34,7 +34,7 @@ from elasticsearch_dsl.connections import get_connection
 from elasticsearch.helpers import bulk
 
 application = get_wsgi_application()
-
+from vmc.ralph.tasks import start_update_assets
 from datetime import datetime, timedelta
 from vmc.ralph.models import Config as RalphConfig
 from vmc.ralph.tasks import _update_assets
@@ -172,7 +172,10 @@ def generate_vulns(asset_count, asset_search, cve_sets):
 
 
 def main():
-    print('Download CVEs')
+    start_update_assets()
+    #start_processing()
+    #print('Download CVEs')
+    """
     group(
         update_cwe.si() |
         group(update_cve.si(year) for year in range(START_YEAR, datetime.now().year + 1)) |
@@ -204,6 +207,7 @@ def main():
     generate_vulns(asset_count, asset_search, cve_sets)
 
     start_processing()
+    """
 
 
 if __name__ == '__main__':

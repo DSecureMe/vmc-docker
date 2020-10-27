@@ -1,0 +1,46 @@
+name: Some value from the CIA is missing
+type: any
+index: "*asset"
+alert: hivealerter
+alert_on_new_data: true
+timestamp_field: "modified_date"
+realert:
+    minutes: 0
+
+filter:
+  - query:
+      bool:
+        should:
+          - bool:
+             must_not:
+              exists:
+                field: confidentiality_requirement
+          - bool:
+             must_not:
+               exists:
+                 field: integrity_requirement
+          - bool:
+             must_not:
+              exists:
+                field: availability_requirement
+          - query_string:
+              query: "confidentiality_requirement: NOT_DEFINED"
+          - query_string:
+              query: "availability_requirement: NOT_DEFINED"
+          - query_string:
+              query: "integrity_requirement: NOT_DEFINED"
+
+
+hive_alert_config:
+  title: '{rule[name]}: {match[ip_address]}'
+  type: 'vmc\asset'
+  source: '{match[source]}'
+  description: '{rule[name]}: {match[ip_address]}'
+  severity: 3
+  tags: ['{match[tags]}', '{match[ip_address]}', '{match[tenant]}', 'CIA value missing']
+  tlp: 1
+  status: 'New'
+
+hive_observable_data_mapping:
+ - ip: '{match[asset][ip_address]}'
+ - business-unit: '{match[tenant]}'

@@ -1,0 +1,27 @@
+name: Discovered new asset
+type: any
+index: "*asset"
+alert: hivealerter
+alert_on_new_data: true
+timestamp_field: "modified_date"
+realert:
+    minutes: 0
+
+filter:
+  - query:
+      query_string:
+          query: 'tags: DISCOVERED'
+
+hive_alert_config:
+  title: '{rule[name]}: {match[ip_address]}'
+  type: 'vmc\asset'
+  source: '{match[source]}'
+  description: '{rule[name]}: {match[ip_address]}'
+  severity: 3
+  tags: ['{match[tags]}', '{match[ip_address]}', '{match[tenant]}', 'Discovered Asset']
+  tlp: 1
+  status: 'New'
+
+hive_observable_data_mapping:
+ - ip: '{match[asset][ip_address]}'
+ - business-unit: '{match[tenant]}'
