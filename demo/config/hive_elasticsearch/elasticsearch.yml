@@ -1,6 +1,0 @@
-http.host: 0.0.0.0
-transport.host: 0.0.0.0
-cluster.name: vmc-hive
-xpack.security.enabled: false
-
-path.repo: ["/test_data"]
