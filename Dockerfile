@@ -1,6 +1,6 @@
 FROM centos:7.8.2003 as builder
 
-ARG VMC_VERSION=1.1-RC-1
+ARG VMC_VERSION=1.1-RC-2
 ENV VMC_VERSION=${VMC_VERSION}
 
 
@@ -13,7 +13,7 @@ RUN yum install -y epel-release-7-11.noarch; \
 
 ENV PATH="/opt/vmc/bin:$PATH"
 
-#RUN pip3.6 install --no-cache-dir vmcenter==${VMC_VERSION}
+RUN pip3.6 install --no-cache-dir vmcenter==${VMC_VERSION}
 
 
 FROM centos:7.8.2003
@@ -25,7 +25,7 @@ ENV VMC_VERSION=${VMC_VERSION}
 ENV PATH="/opt/vmc/bin:$PATH"
 
 
-LABEL org.label-schema.schema-version="1.1-RC-1" \
+LABEL org.label-schema.schema-version="1.1-RC-2" \
       org.label-schema.license="Apache-2.0" \
       org.label-schema.url="http://dsecure.me"\
       org.label-schema.vendor="DSecure.me" \
