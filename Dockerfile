@@ -1,14 +1,13 @@
 FROM centos:7.8.2003 as builder
 
-ARG VMC_VERSION=1.1-RC-1
+ARG VMC_VERSION=1.1-RC-2
 ENV VMC_VERSION=${VMC_VERSION}
 
 
 RUN yum install -y epel-release-7-11.noarch; \
-    yum install -y python3-3.6.8-13.el7.x86_64 \
-                   python3-devel-3.6.8-13.el7.x86_64 \
-                   mariadb-devel-1:5.5.65-1.el7.x86_64 \
-                   gcc-4.8.5-39.el7.x86_64; \
+    yum install -y python3-3.6.8-18.el7.x86_64 \
+                   python3-devel-3.6.8-18.el7.x86_64 \
+                   gcc-4.8.5-44.el7.x86_64; \
     python3 -m venv /opt/vmc; \
     yum clean all;
 
@@ -26,7 +25,7 @@ ENV VMC_VERSION=${VMC_VERSION}
 ENV PATH="/opt/vmc/bin:$PATH"
 
 
-LABEL org.label-schema.schema-version="1.1-RC-1" \
+LABEL org.label-schema.schema-version="1.1-RC-2" \
       org.label-schema.license="Apache-2.0" \
       org.label-schema.url="http://dsecure.me"\
       org.label-schema.vendor="DSecure.me" \
@@ -36,15 +35,14 @@ COPY root /
 COPY --from=builder /opt/vmc /opt/vmc
 
 RUN yum install -y epel-release-7-11.noarch; \
-    yum install -y python3-3.6.8-13.el7.x86_64 \
-                   mariadb-devel-1:5.5.65-1.el7.x86_64 \
-                   nginx-1:1.16.1-2.el7.x86_64; \
-    mkdir -p /usr/share/vmc/static; \
+    yum install -y python3-3.6.8-18.el7.x86_64 \
+                   nginx-1:1.16.1-3.el7.x86_64; \
+    mkdir -p /usr/share/vmc/static /usr/share/vmc/scans; \
     vmc collectstatic --noinput --clear; \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone; \
     yum clean all; \
     rm -rf /var/cache/yum; \
-    chmod g=u /etc/passwd; \
+    chmod g=u /etc/passwd /usr/share/vmc; \
     chmod +x /usr/bin/entrypoint;
 
 

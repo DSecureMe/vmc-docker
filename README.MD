@@ -8,25 +8,6 @@
 # What is VMC
 **[VMC](https://github.com/DSecureMe/vmc)** (Vulnerability Management Center) is a platform created to make vulnerability management simple, easy and clean.
 
-# How to use
-## To run demo
-Open demo folder and build (it may take couple minutes)
-```
-make build
-make up
-make demodata # If you want to configure and genrate demodata to see how everything works.
-```
-Then:
-- on port `:5601` you can find Kibana panel with sample KPIs.
-- on port `:8081` you can find Ralph with sample assets (login ralph, password: ralph).
-- on port `:9000` you can find The Hive with the sample alerts(login admin, password: admin).
-- on port `:8080/admin` you can find VMC admin panel with the sample configuration (login admin, password: adminadmin).
-
-More guides will be published on [doc report](https://github.com/DSecureMe/vmc-docs) very soon
-
-# Configuration files
-All configs you may find in `demo/config/`
-
 # Get this image
 The recommended way to get the VMC Docker Image is to pull the prebuilt image from the [Docker Hub Registry](https://hub.docker.com/r/dsecureme/vmc).
 ```bash
@@ -47,44 +28,9 @@ You can also make using version parameter
 ```bash
 $ make build v=[version number]
 ```
-# Demo configuration file
-Once build it will be in `/etc/vmc/`
-In demo repo you can find it in `/demo/config/vmc/demo.yml`
-```
-#Redis
-redis.url: redis://redis:6379/1
 
-#Elastic Search
-elasticsearch.hosts: ["http://elasticsearch:9200"]
-elasticsearch.user: elastic
-elasticsearch.password: kibana
-
-#database
-database.engine: django.db.backends.postgresql_psycopg2
-database.name: vmc
-database.user: user
-database.password: password
-database.host: postgres
-database.port: 5432
-
-# Queue
-rabbitmq.username: vmc
-rabbitmq.password: test_vmc
-rabbitmq.host: rabbitmq
-rabbitmq.port: 5672
-
-# Secret
-secret_key: "jk&e^6%5@^5!^1jq8#vd2g^@8w9g5#i_v*ho!#mx%y7%5fuz9%"
-debug: true
-
-# Admin Service Name
-admin_service_name: admin
-```
-
-
-# Requirments
+# Requirements
 * docker
-* docker compose
 * make
 
 # Credit

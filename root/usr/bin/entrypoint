@@ -12,6 +12,10 @@ fi
 {
     cmd=$1
     case $cmd in
+         admin)
+             nginx
+             exec vmcctl start $cmd
+             ;;
          admin|monitor|scheduler|worker)
               exec vmcctl start $cmd
               ;;

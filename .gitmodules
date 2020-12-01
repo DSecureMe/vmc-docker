@@ -1,3 +1,0 @@
-[submodule "demo/elastalert"]
-	path = demo/elastalert
-	url = https://github.com/mwalkowski/elastalert.git
