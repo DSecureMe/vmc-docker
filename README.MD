@@ -1,4 +1,4 @@
-![logo](https://dsecure.me/wp-content/uploads/2019/11/dSecure-1.png)
+![logo](https://raw.githubusercontent.com/DSecureMe/vmc/master/images/vmp.png)
 
 [![badge](https://images.microbadger.com/badges/image/dsecureme/vmc.svg)](https://hub.docker.com/r/dsecureme/vmc/) [![badge_ver](https://images.microbadger.com/badges/version/dsecureme/vmc.svg)](https://microbadger.com/images/dsecureme/vmc "Get your own version badge on microbadger.com") [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
