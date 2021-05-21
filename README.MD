@@ -6,7 +6,7 @@
 * Latest version [Dockerfile](Dockerfile)
 
 # What is VMC
-**[VMC](https://github.com/DSecureMe/vmc)** (Vulnerability Management Center) is a platform created to make vulnerability management simple, easy and clean.
+**[VMC](https://github.com/DSecureMe/vmc)** (OWASP Vulnerability Management Center) is a platform created to make vulnerability management simple, easy and clean.
 
 # Get this image
 The recommended way to get the VMC Docker Image is to pull the prebuilt image from the [Docker Hub Registry](https://hub.docker.com/r/dsecureme/vmc).
