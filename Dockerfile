@@ -1,22 +1,31 @@
-FROM centos:7.8.2003 as builder
+FROM debian:buster-20210329-slim as builder
 
 ARG VMC_VERSION=1.1-RC-2
 ENV VMC_VERSION=${VMC_VERSION}
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN yum install -y epel-release-7-11.noarch; \
-    yum install -y python3-3.6.8-18.el7.x86_64 \
-                   python3-devel-3.6.8-18.el7.x86_64 \
-                   gcc-4.8.5-44.el7.x86_64; \
-    python3 -m venv /opt/vmc; \
-    yum clean all;
+RUN apt-get update ; \
+    apt-get install --no-install-recommends -y \
+                   curl=7.64.0-4+deb10u2 \
+                   libssl-dev=1.1.1d-0+deb10u6 \
+                   python3=3.7.3-1 \
+                   python3-pip=18.1-5 \
+                   python3-dev=3.7.3-1 \
+                   python3-distutils=3.7.3-1 \
+                   python3-venv=3.7.3-1 \
+                   build-essential=12.6; \
+    python3 -m venv /opt/vmc;
 
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+
+ENV PATH="/root/.cargo/bin:${PATH}"
 ENV PATH="/opt/vmc/bin:$PATH"
 
-RUN pip3.6 install --no-cache-dir vmcenter==${VMC_VERSION}
+RUN pip3 install --no-cache-dir vmcenter==${VMC_VERSION}
 
 
-FROM centos:7.8.2003
+FROM debian:buster-20210329-slim
 
 ENV TZ=Poland
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -27,21 +36,22 @@ ENV PATH="/opt/vmc/bin:$PATH"
 
 LABEL org.label-schema.schema-version="1.1-RC-2" \
       org.label-schema.license="Apache-2.0" \
-      org.label-schema.url="http://dsecure.me"\
+      org.label-schema.url="https://dsecure.me"\
       org.label-schema.vendor="DSecure.me" \
       org.label-schema.name="VMC"
 
 COPY root /
 COPY --from=builder /opt/vmc /opt/vmc
 
-RUN yum install -y epel-release-7-11.noarch; \
-    yum install -y python3-3.6.8-18.el7.x86_64 \
-                   nginx-1:1.16.1-3.el7.x86_64; \
+RUN apt-get update; \
+    apt-get install --no-install-recommends -y \
+                       python3=3.7.3-1 \
+                       python3-distutils=3.7.3-1 \
+                       nginx=1.14.2-2+deb10u3; \
     mkdir -p /usr/share/vmc/static /usr/share/vmc/scans; \
     vmc collectstatic --noinput --clear; \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone; \
-    yum clean all; \
-    rm -rf /var/cache/yum; \
+    rm -rf /var/lib/apt/lists/*; \
     chmod g=u /etc/passwd /usr/share/vmc; \
     chmod +x /usr/bin/entrypoint;
 
