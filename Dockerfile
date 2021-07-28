@@ -1,4 +1,4 @@
-FROM centos:7.8.2003 as builder
+FROM centos:centos7.9.2009 as builder
 
 ARG VMC_VERSION=1.1-RC-2
 ENV VMC_VERSION=${VMC_VERSION}
@@ -16,7 +16,7 @@ ENV PATH="/opt/vmc/bin:$PATH"
 RUN pip3.6 install --no-cache-dir vmcenter==${VMC_VERSION}
 
 
-FROM centos:7.8.2003
+FROM centos:centos7.9.2009
 
 ENV TZ=Poland
 ENV PYTHONDONTWRITEBYTECODE 1
