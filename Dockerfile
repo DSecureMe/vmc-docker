@@ -13,7 +13,7 @@ RUN yum install -y epel-release-7-11.noarch; \
 
 ENV PATH="/opt/vmc/bin:$PATH"
 
-RUN pip3.6 install --upgrade pip;\
+RUN pip3.6 install --no-cache-dir --upgrade pip==21.3.1; \
     pip3.6 install --no-cache-dir vmcenter==${VMC_VERSION}
 
 
