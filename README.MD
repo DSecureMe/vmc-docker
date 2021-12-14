@@ -1,6 +1,6 @@
 ![logo](https://raw.githubusercontent.com/DSecureMe/vmc/master/images/vmp.png)
 
-![master](https://github.com/DSecureMe/vmc-docker/actions/workflows/makefile.yml/badge.svg?branch=master)[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![master](https://github.com/DSecureMe/vmc-docker/actions/workflows/makefile.yml/badge.svg?branch=master) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # Dockerfile links
 * Latest version [Dockerfile](Dockerfile)
