@@ -38,6 +38,6 @@ COPY --from=base /opt /
 COPY --from=vmc-builder /usr/share/vmc/static /usr/share/vmc/static/
 COPY docker/nginx/root /
 
-EXPOSE 80
+EXPOSE 8080
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
