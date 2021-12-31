@@ -1,0 +1,17 @@
+FROM gcr.io/distroless/python3-debian10:latest
+
+ARG VMC_VERSION=1.1-RC-2
+ENV VMC_VERSION=${VMC_VERSION}
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV VMC_VERSION=${VMC_VERSION}
+ENV PYTHONPATH="/usr/local/lib/python3.7/site-packages"
+
+LABEL org.label-schema.schema-version="$VMC_VERSION" \
+      org.label-schema.license="Apache-2.0" \
+      org.label-schema.url="http://dsecure.me"\
+      org.label-schema.vendor="DSecure.me" \
+      org.label-schema.name="VMC"
+
+COPY --from=vmc-builder:latest /opt/venv/lib/python3.7/site-packages /usr/local/lib/python3.7/site-packages
+COPY docker/vmc/root/usr/local/lib/python3.7/site-packages /
