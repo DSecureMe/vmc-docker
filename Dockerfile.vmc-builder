@@ -8,6 +8,8 @@ RUN python3 -m venv $VIRTUAL_ENV
 
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-RUN pip install --no-cache-dir vmcenter==${VMC_VERSION}; \
+RUN pip install --upgrade pip;\
+    pip install tzdata ;\
+    pip install --no-cache-dir vmcenter==${VMC_VERSION}; \
     python3 -m vmc collectstatic --noinput --clear;
 
