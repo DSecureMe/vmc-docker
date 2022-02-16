@@ -1,4 +1,4 @@
-v ?= 1.1-RC-2
+v ?= 1.2rc3
 
 all: build
 
