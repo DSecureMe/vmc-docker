@@ -1,6 +1,6 @@
 FROM python:3.7.12-slim-bullseye
 
-ARG VMC_VERSION=1.1-RC-2
+ARG VMC_VERSION=1.2rc3
 ENV VMC_VERSION=${VMC_VERSION}
 ENV VIRTUAL_ENV=/opt/venv
 
@@ -9,7 +9,6 @@ RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN pip install --upgrade pip;\
-    pip install tzdata ;\
     pip install --no-cache-dir vmcenter==${VMC_VERSION}; \
     python3 -m vmc collectstatic --noinput --clear;
 
