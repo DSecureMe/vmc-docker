@@ -1,4 +1,4 @@
-FROM python:3.7.12-slim-bullseye
+FROM python:3.11.0b1-slim-bullseye
 
 ARG VMC_VERSION=1.2rc3
 ENV VMC_VERSION=${VMC_VERSION}
