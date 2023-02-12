@@ -1,6 +1,6 @@
-FROM python:3.11.0b1-slim-bullseye
+FROM python:3.7-slim-bullseye
 
-ARG VMC_VERSION=1.2rc3
+ARG VMC_VERSION=1.0.2
 ENV VMC_VERSION=${VMC_VERSION}
 ENV VIRTUAL_ENV=/opt/venv
 
@@ -8,7 +8,8 @@ RUN python3 -m venv $VIRTUAL_ENV
 
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-RUN pip install --upgrade pip;\
+RUN pip install --upgrade pip==22.0.3; \
+    pip install --upgrade setuptools==59.1.1; \
     pip install --no-cache-dir vmcenter==${VMC_VERSION}; \
     python3 -m vmc collectstatic --noinput --clear;
 
