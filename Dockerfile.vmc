@@ -1,11 +1,10 @@
-FROM gcr.io/distroless/python3-debian10:latest
+FROM python:3.10-slim-bookworm
 
 ARG VMC_VERSION=1.2rc3
 ENV VMC_VERSION=${VMC_VERSION}
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV VMC_VERSION=${VMC_VERSION}
-ENV PYTHONPATH="/usr/local/lib/python3.7/site-packages"
+ENV PYTHONPATH="/usr/local/lib/python3.10/site-packages"
 
 LABEL org.label-schema.schema-version="$VMC_VERSION" \
       org.label-schema.license="Apache-2.0" \
@@ -13,5 +12,5 @@ LABEL org.label-schema.schema-version="$VMC_VERSION" \
       org.label-schema.vendor="DSecure.me" \
       org.label-schema.name="VMC"
 
-COPY --from=vmc-builder:latest /opt/venv/lib/python3.7/site-packages /usr/local/lib/python3.7/site-packages
-COPY docker/vmc/root/usr/local/lib/python3.7/site-packages /
+COPY --from=vmc-builder:latest /opt/venv/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY docker/vmc/root/usr/local/lib/python3.10/site-packages /
