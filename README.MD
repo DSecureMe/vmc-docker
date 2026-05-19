@@ -2,6 +2,19 @@
 
 ![master](https://github.com/DSecureMe/vmc-docker/actions/workflows/makefile.yml/badge.svg?branch=master) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+> [!WARNING]
+> **This software is NOT a release candidate and is NOT production-ready.**
+>
+> The code in this repository (and its dependencies) may contain
+> vulnerabilities. The maintainers provide no warranty of any kind and
+> accept no liability for any defect, vulnerability, data loss, security
+> incident or other damage resulting from its use.
+>
+> You install, run, evaluate and operate this software **at your own
+> risk**. Do not deploy it in a production environment, and do not
+> expose it to untrusted networks without an independent security
+> review.
+
 # Dockerfile links
 * Latest version [Dockerfile](Dockerfile)
 
